@@ -23,3 +23,26 @@ data.forEach((dataRow) => {
     );
 });
 }
+
+function handleClick () {
+    //grab the datetime value from the filter
+    let date = d3.select("#datetime").property("value");
+    //create a default filter. we want the filter to default to everything so users can decide what they want to see
+    let filteredData = tableData;
+
+    //check to see if a date was enetered and filter the data using that date
+    if(date) {
+        //apply 'filter' to the table data to only keep the rows where the datetime value matches
+        filteredData = filteredData.filter(row => row.datetime === date);
+    };
+    
+    //rebuild the table using the filtered data
+    //@note if no date was entered, then filteredData will just be the original tableData
+    buildTable(filteredData);
+};
+
+//attach an event to listen for the form button
+d3.selectAll("#filter-btn").on("click", handleClick);
+
+//build the table when the page loads
+buildTable(tableData);
